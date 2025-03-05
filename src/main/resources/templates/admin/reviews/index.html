@@ -1,0 +1,103 @@
+ <!DOCTYPE html>
+ <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+     <head>
+         <div th:replace="~{fragment :: meta}"></div>
+         
+         <div th:replace="~{fragment :: styles}"></div>
+         
+         <title>レビュー管理</title>
+     </head>
+     <body>
+		<div class="nagoyameshi-wrapper">
+			<!-- ヘッダー -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<main>
+				<div class="container pt-4 pb-5 nagoyameshi-container">
+					<div class="row justify-content-center">
+						<div class="col-xxl-9 col-xl-10 col-lg-11">
+							<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                                 <ol class="breadcrumb mb-0">                        
+                                     <li class="breadcrumb-item"><a th:href="@{/}">トップページ</a></li>
+                                     <li class="breadcrumb-item active" aria-current="page">レビュー管理</li>
+                                 </ol>
+                            </nav>
+                            
+                            <div th:if="${successMessage}" class="alert alert-info">
+                                <span th:text="${successMessage}"></span>
+                            </div> 
+                             
+							<h1 class="mb-4 text-center">レビュー管理</h1>
+							
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">店舗ID</th>
+										<th scope="col">投稿者</th>
+										<th scope="col">内容</th>
+										<th scope="col">点数</th>
+										<th scope="col">状態</th>
+										<th scope="col">公開設定</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="review : ${reviewPage}">
+										<td th:text="${review.getShopId()}"></td>
+										<td th:text="${userNameMap[review.id]}"></td>
+										<td th:text="${review.getReviewComment()}"></td>
+										<td th:switch="${review.score}" class="star-score">
+											<span th:case="1">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
+											<span th:case="2">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
+											<span th:case="3">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
+											<span th:case="4">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+											<span th:case="5">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+											<span th:case="*">&#9734;&#9734;&#9734;&#9734;&#9734;</span>  <!-- デフォルトの表示 -->
+										</td>
+										<td>
+											<a th:if="${review.getEnabled()} == true">公開中</a >
+											<span th:if="${review.getEnabled()} == false" class="text-red">非公開</span>
+										</td>
+										<td>
+											<form th:if="${review.getEnabled()} == true" th:action="@{/admin/reviews/__${review.getId()}__/changePrivate}"  method="post">
+												<button type="submit">非公開設定</button>
+											</form >
+											<form th:if="${review.getEnabled()} == false" th:action="@{/admin/reviews/__${review.getId()}__/changePublic}"  method="post">
+												<button type="submit">非公開解除</button>
+											</form >
+										</td>
+
+									</tr>
+								</tbody>
+							</table>
+							
+							 <!-- ページネーション -->
+                             <div th:if="${reviewPage.getTotalPages() > 1}" class="d-flex justify-content-center">
+                                 <nav aria-label="レビュー一覧ページ">
+                                     <ul class="pagination">
+                                         <li class="page-item">
+                                             <span th:if="${reviewPage.isFirst()}" class="page-link disabled">前</span>
+                                             <a th:unless="${reviewPage.isFirst()}" th:href="@{/admin/reviews(page = ${reviewPage.getNumber() - 1})}" class="page-link nagoyameshi-page-link">前</a>
+                                         </li>
+                                         <li th:each="i : ${#numbers.sequence(0, reviewPage.getTotalPages() - 1)}" class="page-item">
+                                             <span th:if="${i == reviewPage.getNumber()}" class="page-link active samuraitravel-active" th:text="${i + 1}"></span>
+                                             <a th:unless="${i == reviewPage.getNumber()}" th:href="@{/admin/reviews(page = ${i})}" class="page-link nagoyameshi-page-link" th:text="${i + 1}"></a>
+                                         </li>
+                                         <li class="page-item">                        
+                                             <span th:if="${reviewPage.isLast()}" class="page-link disabled">次</span>
+                                             <a th:unless="${reviewPage.isLast()}" th:href="@{/admin/reviews(page = ${reviewPage.getNumber() + 1})}" class="page-link nagoyameshi-page-link">次</a>
+                                         </li>
+                                     </ul>
+                                 </nav> 
+                             </div> 
+							
+					</div>
+				</div>
+			</main>
+			
+            <!-- フッター -->
+            <div th:replace="~{fragment :: footer}"></div>
+		</div>
+		
+        <div th:replace="~{fragment :: scripts}"></div>  
+     </body>
+ </html>

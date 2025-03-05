@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head>
+       <div th:replace="~{fragment :: meta}"></div>
+       
+       <div th:replace="~{fragment :: styles}"></div>
+       
+       <title>有料会員解約</title>       
+   </head>
+   <body>
+       <div class="nagoyameshi-wrapper">
+           <!-- ヘッダー -->
+           <div th:replace="~{fragment :: header}"></div>
+           
+           <main>
+               <div class="container pt-4 pb-5 nagoyameshi-container">
+                   <div class="row justify-content-center">
+                       <div class="col-xl-5 col-lg-6 col-md-8">
+                           <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                               <ol class="breadcrumb mb-0">                        
+                                   <li class="breadcrumb-item"><a th:href="@{/}">トップページ</a></li>
+                                   <li class="breadcrumb-item active" aria-current="page">有料会員解約</li>
+                               </ol>
+                           </nav> 
+                           
+                           <h1 class="mb-4 text-center">有料会員解約</h1>
+                           
+                           <a href="#" id="cancelSubscriptionBtn" th:data-paymentmethod-id="${paymentMethodId}" th:data-subscription-id="${subscriptionId}">クレジットカード情報を削除し、有料会員を解約します。</a>
+                           
+                       </div>
+                   </div>
+               </div>             
+           </main>
+           
+           <!-- フッター -->
+            <div th:replace="~{fragment :: footer}"></div>
+       </div>    
+       
+       <!-- Bootstrap -->
+       <div th:replace="~{fragment :: scripts}"></div>
+       <script th:src="@{/js/paid-cancel.js}"></script>
+    </body>
+</html>

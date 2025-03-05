@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head>
+       <div th:replace="~{fragment :: meta}"></div>
+       
+       <div th:replace="~{fragment :: styles}"></div>
+       
+       <title>有料会員登録</title>       
+   </head>
+   <body>
+       <div class="nagoyameshi-wrapper">
+           <!-- ヘッダー -->
+           <div th:replace="~{fragment :: header}"></div>
+           
+           <main>
+               <div class="container pt-4 pb-5 nagoyameshi-container">
+                   <div class="row justify-content-center">
+                       <div class="col-xl-5 col-lg-6 col-md-8">
+                           <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                               <ol class="breadcrumb mb-0">                        
+                                   <li class="breadcrumb-item"><a th:href="@{/}">トップページ</a></li>
+                                   <li class="breadcrumb-item active" aria-current="page">有料会員登録</li>
+                               </ol>
+                           </nav> 
+                           
+                           <h1 class="mb-4 text-center">有料会員登録</h1>
+                           
+                           <form id="paidUpgrade" th:action="@{/users/paid/upgrade}" method="post" style="display:none;">
+                               <input type="hidden" name="dummy" value="dummy">
+                           </form>
+                           <a href="#" id="paymentButton">クレジットカード情報を入力し、有料会員登録へと進みます。</a>
+                           
+                       </div>
+                   </div>
+               </div>             
+           </main>
+           
+           <!-- フッター -->
+            <div th:replace="~{fragment :: footer}"></div>
+       </div>    
+       
+       <!-- Bootstrap -->
+       <div th:replace="~{fragment :: scripts}"></div>
+       <script src="https://js.stripe.com/v3"></script>
+       <script th:inline="javascript">
+			const sessionId = /*[[${sessionId}]]*/"sessionId";
+       </script>        
+       <script th:src="@{/js/stripe.js}"></script>  
+    </body>
+</html>

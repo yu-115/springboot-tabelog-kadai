@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head>
+       <div th:replace="~{fragment :: meta}"></div>
+       
+       <div th:replace="~{fragment :: styles}"></div>
+       
+       <title>管理者用店舗詳細ページ</title>       
+   </head>
+   <body>
+       <div class="nagoyameshi-wrapper">
+           <!-- ヘッダー -->
+           <div th:replace="~{fragment :: header}"></div>
+           
+           <main>
+               <div class="container pt-4 pb-5 nagoyameshi-container">
+                   <div class="row justify-content-center">
+                       <div class="col-xl-5 col-lg-6 col-md-8">
+                           <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                               <ol class="breadcrumb mb-0">
+								   <li class="breadcrumb-item"><a th:href="@{/}">トップページ</a></li>
+                                   <li class="breadcrumb-item"><a th:href="@{/admin/shops}">店舗管理</a></li>
+                                   <li class="breadcrumb-item active" aria-current="page">店舗詳細</li>
+                               </ol>
+                           </nav> 
+                           
+                           <h1 class="mb-4 text-center" th:text="${shop.getName()}"></h1>
+                           
+                           <div th:if="${errorMessage}" class="alert alert-danger">
+                               <span th:text="${errorMessage}"></span>
+                           </div>
+                           
+                           <div th:if="${successMessage}" class="alert alert-info">
+                               <span th:text="${successMessage}"></span>
+                           </div>
+                           
+                           <div class="d-flex justify-content-end align-items-end mb-3">                    
+                               <div>
+                                   <a th:href="@{/admin/shops/__${shop.getId()}__/edit}">編集</a>
+                               </div>
+                           </div>                                                 
+                           
+                           <div class="mb-3">
+                               <img th:if="${shop.getImageName()}" th:src="@{/storage/__${shop.getImageName()}__}" class="w-100" alt="イメージ画像">
+                               <img th:unless="${shop.getImageName()}" th:src="@{/images/noImage.png}" class="w-100" alt="NO IMAGE">
+                           </div>   
+                           
+                           <div class="container mb-4">
+                               <div class="row pb-2 mb-2 border-bottom">
+                                   <div class="col-4">
+                                       <span class="fw-bold">説明</span>
+                                   </div>
+           
+                                   <div class="col">
+                                       <span class="nagoyameshi-pre-wrap" th:text="${shop.getDescription()}"></span>
+                                   </div>
+                               </div>
+           
+                               <div class="row pb-2 mb-2 border-bottom">
+                                   <div class="col-4">
+                                       <span class="fw-bold">料金目安</span>
+                                   </div>
+           
+                                   <div class="col">
+                                       <span th:text="${shop.getPrice() + '円'}"></span>
+                                   </div>
+                               </div> 
+                               
+                              <div class="row pb-2 mb-2 border-bottom">
+                                   <div class="col-4">
+                                       <span class="fw-bold">定員</span>
+                                   </div>
+           
+                                   <div class="col">
+                                       <span th:text="${shop.getCapacity() + '人'}"></span>
+                                   </div>
+                               </div>                               
+                               
+                               <div class="row pb-2 mb-2 border-bottom">
+                                   <div class="col-4">
+                                       <span class="fw-bold">住所</span>
+                                   </div>
+           
+                                   <div class="col">
+                                       <span th:text="${shop.getAddress()}"></span>
+                                   </div>
+                               </div>   
+                               
+                               <div class="row pb-2 mb-2 border-bottom">
+                                   <div class="col-4">
+                                       <span class="fw-bold">電話番号</span>
+                                   </div>
+           
+                                   <div class="col">
+                                       <span th:text="${shop.getPhoneNumber()}"></span>
+                                   </div>
+                               </div>
+                               
+                               <div class="row pb-2 mb-2 border-bottom">
+                                   <div class="col-4">
+                                       <span class="fw-bold">カテゴリ</span>
+                                   </div>
+           
+                                   <div th:unless="${#lists.isEmpty(shopCategories)}" class="col">
+                                       <span th:each="shopCategory : ${shopCategories}" th:text="${shopCategory.category.name + ' '}"></span>
+                                   </div>
+                                   <div th:if="${#lists.isEmpty(shopCategories)}" class="col">
+                                       <span th:text="登録されているカテゴリはありません。"></span>
+                                   </div>
+                                   
+                               </div>                                
+                            </div>
+
+               				<div class="d-flex justify-content-between align-items-end flex-wrap">
+							   
+							   <form method="post" th:action="@{/admin/shopcategories/__${shop.getId()}__/create}" th:object="${shopCategoryRegisterForm}" enctype="multipart/form-data" class="d-flex align-items-end">
+                                   <div class="form-group row mb-3 me-2">
+                                    	<div class="col-md-4">
+                                        	<label for="name" class="col-form-label text-md-left fw-bold me-2">カテゴリ追加</label>
+                                    	</div>
+                                       
+                                     	<div class="col-md-6">
+                                    		<div th:if="${#fields.hasErrors('categoryId')}" class="text-danger small mb-2" th:errors="*{categoryId}"></div>
+                                    		<select class="form-control me-2" th:field="*{categoryId}">
+                                        		<option value="" disabled selected>カテゴリを選択してください</option>
+                                        		<option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"></option>
+                                    		</select>
+                                   		</div>
+                                   
+                                   		<div class="col-md-2 d-flex align-items-center">
+                                    		<button type="submit" class="btn text-white shadow-sm nagoyameshi-btn  btn-vertical-align">追加</button>
+                                   		</div>
+                                   </div>
+                               </form>
+                           </div>
+                           
+                           <div class="d-flex justify-content-end align-items-end mb-3">                    
+                               <div th:unless="${#lists.isEmpty(shopCategories)}">
+                                   <a th:href="@{/admin/shopcategories/__${shop.getId()}__/remove}">カテゴリを削除</a>
+                               </div>
+                           </div> 
+                           
+                       </div>
+                   </div>
+               </div>             
+           </main>
+           
+           <!-- フッター -->
+            <div th:replace="~{fragment :: footer}"></div>
+       </div>    
+       
+       <!-- Bootstrap -->
+       <div th:replace="~{fragment :: scripts}"></div>
+    </body>
+</html>

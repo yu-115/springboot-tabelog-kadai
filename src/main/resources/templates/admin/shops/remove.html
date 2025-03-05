@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+   <head>
+       <div th:replace="~{fragment :: meta}"></div>
+       
+       <div th:replace="~{fragment :: styles}"></div>
+
+       <title>店舗カテゴリ削除ページ</title>       
+   </head>
+   <body>
+       <div class="nagoyameshi-wrapper">
+           <!-- ヘッダー -->
+           <div th:replace="~{fragment :: header}"></div>
+           
+           <main>
+               <div class="container pt-4 pb-5 nagoyameshi-container">
+                   <div class="row justify-content-center">
+                       <div class="col-xl-5 col-lg-6 col-md-8">
+                           <nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                               <ol class="breadcrumb mb-0">
+                                   <li class="breadcrumb-item"><a th:href="@{/}">トップページ</a></li>
+                                   <li class="breadcrumb-item"><a th:href="@{/admin/shops}">店舗管理</a></li>
+
+                                   <li class="breadcrumb-item active" aria-current="page">店舗カテゴリ削除</li>
+                               </ol>
+                           </nav> 
+
+                           <h1 class="mb-4 text-center">カテゴリ削除ページ</h1>
+
+                           <div class="d-flex justify-content-between align-items-end flex-wrap"></div>
+                           
+                           
+                        	<form method="post" th:action="@{/admin/shopcategories/__${shopCategories[0].shopId}__/remove}">
+                           		<table class="table">
+                               		<thead>
+                                   		<tr>
+                                       		<th scope="col">カテゴリ名</th>
+                                       		<th scope="col"></th>
+                                       		<th scope="col"></th>
+                                   		</tr>
+                               		</thead>
+                               		<tbody>
+                                   		<tr th:each="shopCategory : ${shopCategories}">
+                                       		<td th:text="${shopCategory.category.name}"></td>
+                                       		<td><input type="checkbox" th:value="${shopCategory.id}" name="deleteSC"></td>
+                                   		</tr>                                      
+                               		</tbody>
+                           		</table>
+                           		<button type="submit" class="btn btn-danger">削除</button>
+                        	</form>
+                       </div>
+                   </div>
+               </div>              
+           </main>
+           
+           <!-- フッター -->
+            <div th:replace="~{fragment :: footer}"></div>
+       </div>    
+       
+       <!-- Bootstrap -->
+       <div th:replace="~{fragment :: scripts}"></div>
+    </body>
+</html>
