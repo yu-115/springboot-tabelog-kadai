@@ -124,7 +124,7 @@
                                <!-- 予約用フォーム -->
                                <div class="col-lg-4">
                                
-                               <div class="mb-4">
+                               <div class="mb-4" sec:authorize="hasAnyRole('ROLE_PAID', 'ROLE_ADMIN')">
                                		<div class="card">
                                     	<div class="card-body"> 
                                         	<form method="get" th:action="@{/shops/__${shop.getId()}__/reservations/input}" th:object="${reservationInputForm}">                                                                                                                                                                       
@@ -146,7 +146,7 @@
                                             </form>
                                         </div>
                                     </div>  
-                              　</div>
+                                </div>
                               </div>
                            </div>
                            
@@ -154,7 +154,7 @@
 							
 								<h1 class="mb-4 text-center">レビュー</h1>
 								
-								<a th:if="${doubleCheck} == false" th:href="@{/shops/__${shop.getId()}__/reviews/post}" sec:authorize="isAuthenticated()">
+								<a th:if="${doubleCheck} == false" th:href="@{/shops/__${shop.getId()}__/reviews/post}" sec:authorize="hasAnyRole('ROLE_PAID', 'ROLE_ADMIN')">
                                 	<button type="button" class="btn text-white shadow-sm w-100 nagoyameshi-btn">レビューを投稿する</button>
                                 </a>
 								

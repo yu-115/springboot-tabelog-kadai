@@ -106,6 +106,7 @@ INSERT IGNORE INTO users (id, role_id, name, furigana, phone_number, email, pass
 INSERT IGNORE INTO users (id, role_id, name, furigana, phone_number, email, password, enabled) VALUES (10, 2, '侍 祐子', 'サムライ ユウコ', '090-1234-5678', 'yuko.samurai@example.com', 'password', false);
 INSERT IGNORE INTO users (id, role_id, name, furigana, phone_number, email, password, enabled) VALUES (11, 2, '侍 秋美', 'サムライ アキミ', '090-1234-5678', 'akimi.samurai@example.com', 'password', false);
 INSERT IGNORE INTO users (id, role_id, name, furigana, phone_number, email, password, enabled) VALUES (12, 2, '侍 信平', 'サムライ シンペイ', '090-1234-5678', 'shinpei.samurai@example.com', 'password', false);
+INSERT IGNORE INTO users (id, role_id, name, furigana, phone_number, email, password, enabled) VALUES (13, 3, '管理 者', 'カンリ シャ', '090-1234-5678', 'kanri@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', true);
 
 -- reviewsテーブル
 INSERT IGNORE INTO reviews (id, shop_id, user_id, user_name, review_comment, score, enabled) VALUES (1, 3, 1, '侍 太郎', 'とても雰囲気が良い。また利用したい', 5, true);
